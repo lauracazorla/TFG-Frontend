@@ -1,0 +1,5 @@
+.vscode
+/dist
+/tmp
+/out-tsc
+/node-modules
