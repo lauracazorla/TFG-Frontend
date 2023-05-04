@@ -1,0 +1,87 @@
+<app-toolbar></app-toolbar>
+
+<!--
+<mat-sidenav-container class="sideNavContainer">
+
+    <div class="filterButton" >
+        <button mat-mini-fab color="primary" (click)="sidenav.toggle()" (click)="sidebarOpened()">
+            <mat-icon>filter_list</mat-icon>
+        </button>
+    </div>
+
+    <mat-sidenav #sidenav mode="over" position="end" class="sideNavContent">
+        <div>HOLA</div>
+    </mat-sidenav>
+
+</mat-sidenav-container>
+-->
+
+<mat-sidenav-container class="sideNavContainer">
+
+    <div class="filterButton" >
+        <button mat-mini-fab color="primary" (click)="sidenav.toggle()" (click)="sidebarOpened()">
+            <mat-icon>filter_list</mat-icon>
+        </button>
+    </div>
+
+    <mat-sidenav #sidenav mode="over" position="end" class="sideNavContent">
+
+        <mat-form-field class="formField">
+            <mat-label>Subject</mat-label>
+            <mat-select [(ngModel)]="selectedSubject">
+                <mat-option value="null">-</mat-option>
+                <mat-option *ngFor="let subject of subjects" [value]="subject">{{ subject.acronym }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="formField">
+            <mat-label>Team</mat-label>
+            <mat-select [(ngModel)]="selectedTeam">
+                <mat-option value="null">-</mat-option>
+                <mat-option *ngFor="let team of teams" [value]="team">{{ team.id }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="formField">
+            <mat-label>Date: From</mat-label>
+            <input matInput [(ngModel)]="startDate" [matDatepicker]="startDatepicker">
+            <mat-datepicker-toggle matSuffix [for]="startDatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #startDatepicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="formField">
+            <mat-label>Date: To</mat-label>
+            <input matInput [(ngModel)]="endDate" [matDatepicker]="endDatepicker">
+            <mat-datepicker-toggle matSuffix [for]="endDatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #endDatepicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="formField">
+            <mat-label>Keyword</mat-label>
+            <input matInput [(ngModel)]="keyword" type="text">
+        </mat-form-field>
+
+        <div style="padding-top: 5%;">
+            <button mat-raised-button color="accent" style="width: 50%;">Filter</button>
+        </div>
+    </mat-sidenav>
+
+    <div class="logTable">
+        <table mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="message">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let log" class="mat-cell"> {{log.message}} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+        </table>
+        <mat-paginator [pageSize]="10" 
+            [pageSizeOptions]="[10, 20, 30]" 
+            showFirstLastButtons
+            style="padding-top: 20px; padding-bottom: 10px;">
+        </mat-paginator>
+    </div>
+
+</mat-sidenav-container>
+
+

@@ -10,17 +10,5 @@ import { lastValueFrom, Observable } from 'rxjs';
 })
 export class AppComponent {
   title = 'angular-loganalytics'
-  private data : any = []
-  constructor(private http:HttpClient) {
-
-  }
-
-  getData() {
-    const url = Constants.API_ENDPOINT + "/api/user";
-    this.http.get(url).subscribe((res) => {
-      this.data = res
-      console.log(this.data)
-    })
-  }
-
+  constructor(private http:HttpClient) { }
 }
