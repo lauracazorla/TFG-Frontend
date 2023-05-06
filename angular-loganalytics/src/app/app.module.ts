@@ -7,28 +7,31 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatTableModule } from '@angular/material/table'
-import { MatPaginatorModule } from '@angular/material/paginator'
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon'
-import { MatSidenavModule } from '@angular/material/sidenav'
+import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker'
-import { MatNativeDateModule } from '@angular/material/core'
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { HomeComponent } from './home/home.component';
 import { LogsComponent } from './logs/logs.component';
-import { ToolbarComponent } from './toolbar/toolbar.component'
+import { ToolbarComponent } from './toolbar/toolbar.component';
+import { ErrorPopupComponent } from './error-popup/error-popup.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LogsComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    ErrorPopupComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +49,8 @@ import { ToolbarComponent } from './toolbar/toolbar.component'
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule
   ],
   providers: [
     MatDatepickerModule
