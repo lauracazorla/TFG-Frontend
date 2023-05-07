@@ -23,7 +23,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { HomeComponent } from './home/home.component';
 import { LogsComponent } from './logs/logs.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
-import { ErrorPopupComponent } from './error-popup/error-popup.component'
+import { ErrorPopupComponent } from './error-popup/error-popup.component';
+import { EvaluationsComponent } from './evaluations/evaluations.component'
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ErrorPopupComponent } from './error-popup/error-popup.component'
     HomeComponent,
     LogsComponent,
     ToolbarComponent,
-    ErrorPopupComponent
+    ErrorPopupComponent,
+    EvaluationsComponent
   ],
   imports: [
     BrowserModule,

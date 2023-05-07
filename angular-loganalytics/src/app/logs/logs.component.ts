@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Log } from './log';
 import { LogService } from './log.service';
 import { MatPaginator } from '@angular/material/paginator';
@@ -49,35 +49,31 @@ export class LogsComponent implements OnInit {
       this.logs = data.sort((a, b) => b.time - a.time);
       this.dataSource = new MatTableDataSource<Log>(this.logs);
       this.dataSource.paginator = this.paginator;
-    },
-    (error: any) => {
+      }, (error: any) => {
       this.showErrorMessage(`Error ${error.status}: ${error.error.message}`);
     });
 
     this.subjectService.getSubjects().subscribe((data: Subject[]) => {
-        this.subjects = data;
+      this.subjects = data;
     });
     
     this.teamService.getTeams().subscribe((data: Team[]) => {
-        this.teams = data;
+      this.teams = data;
     });
 
   }
 
   filterLogs(): void {
-    if (this.startDate != undefined)
-      this.startDate = moment(this.startDate).format("YYYY-MM-DD");
-    if (this.endDate != undefined)
-      this.endDate = moment(this.endDate).format("YYYY-MM-DD");
+    if (this.startDate != undefined) this.startDate = moment(this.startDate).format("YYYY-MM-DD");
+    if (this.endDate != undefined) this.endDate = moment(this.endDate).format("YYYY-MM-DD");
 
     this.logService.getLogs(1, 100, this.startDate, 
     this.endDate, this.selectedSubject, this.selectedTeam, 
     this.keyword).subscribe((data: Log[]) => {
       this.logs = data.sort((a, b) => b.time - a.time);
       this.dataSource = new MatTableDataSource<Log>(this.logs);
-      this.dataSource.paginator = this.paginator;
-    },
-    (error: any) => {
+      this.dataSource.paginator = this.paginator; 
+      }, (error: any) => {
       this.showErrorMessage(`Error ${error.status}: ${error.error.message}`);
     });
 

@@ -1,8 +1,6 @@
 <mat-toolbar #toolbar class="toolbar" color="primary">
-        <span style="padding-left:2%; padding-right:2%;">
-            Log Analytics Tool
-        </span>
-        <span style="flex: 1 1 auto"></span>
-        <a class="toolbarLink">Metrics</a>
-        <a [routerLink]="['/logs']" class="toolbarLink">Logs</a>
+    <span style="padding-left: 20px; padding-right: 20px;">Log Analytics Tool</span>
+    <span style="flex: 1 1 auto;"></span>
+    <a [routerLink]="['/metrics']" class="toolbarLink">Metrics</a>
+    <a [routerLink]="['/logs']" class="toolbarLink">Logs</a>
 </mat-toolbar>

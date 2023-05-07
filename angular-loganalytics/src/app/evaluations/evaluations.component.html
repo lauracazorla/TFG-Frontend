@@ -34,7 +34,7 @@
             <mat-datepicker #startDatepicker></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field class="formField">
+        <mat-form-field class="formField" style="padding-bottom: 15%;">
             <mat-label>Date: To</mat-label>
             <input matInput [(ngModel)]="endDate" [matDatepicker]="endDatepicker">
             <mat-hint style="font-size: 10px; color: #505050;">DD/MM/YYYY</mat-hint>
@@ -42,13 +42,8 @@
             <mat-datepicker #endDatepicker></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field class="formField" style="padding-bottom: 5%;">
-            <mat-label>Keyword</mat-label>
-            <input matInput [(ngModel)]="keyword" type="text">
-        </mat-form-field>
-
         <div style="padding-top: 2.5%;">
-            <button mat-raised-button color="accent" style="width: 50%;" (click)="sidenav.toggle()" (click)="filterLogs()">
+            <button mat-raised-button color="accent" style="width: 50%;" (click)="sidenav.toggle()" (click)="ngOnInit()">
                 Filter
             </button>
         </div>
@@ -60,22 +55,17 @@
 
     </mat-sidenav>
 
-    <div class="logTable">
-        <table mat-table [dataSource]="dataSource">
-            <ng-container matColumnDef="message">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let log" class="mat-cell"> {{log.message}} </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
-        </table>
-        <mat-paginator [pageSize]="10" 
-            [pageSizeOptions]="[10, 25]" 
-            showFirstLastButtons
-            style="padding-top: 20px; padding-bottom: 10px;">
-        </mat-paginator>
-    </div>
+    <ng-container *ngFor="let metric of displayableMetrics">
+        <div *ngIf="!metric.controller; else chart"> 
+            <p id="value-{{metric.name}}"></p>
+            <p>{{metric.name}} </p>
+        </div>
+        <div>
+            <ng-template #chart>
+                <canvas id="chart-{{metric.controller}}"></canvas>
+                <p>{{metric.controller}}</p>
+            </ng-template> 
+        </div>
+    </ng-container>
 
 </mat-sidenav-container>
-
-
