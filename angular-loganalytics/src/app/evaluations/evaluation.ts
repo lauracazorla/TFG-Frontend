@@ -1,9 +1,9 @@
-import { Metric } from "../metrics/metric";
-
 export class Evaluation {
-    date: string;
-    internalMetric: Metric;
-    value: number;
+    name: string;
     subject: string;
     team: string;
+    date: string;
+    value: number;
+    groupable: boolean;
+    entities: Map<string,number>;
 }

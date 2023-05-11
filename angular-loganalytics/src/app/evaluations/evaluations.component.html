@@ -28,7 +28,7 @@
 
         <mat-form-field class="formField">
             <mat-label>Date: From</mat-label>
-            <input matInput [(ngModel)]="startDate" [matDatepicker]="startDatepicker">
+            <input matInput [(ngModel)]="startDate" [matDatepicker]="startDatepicker" [max]="maxDate">
             <mat-hint style="font-size: 10px; color: #505050;">DD/MM/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="startDatepicker"></mat-datepicker-toggle>
             <mat-datepicker #startDatepicker></mat-datepicker>
@@ -36,14 +36,14 @@
 
         <mat-form-field class="formField" style="padding-bottom: 15%;">
             <mat-label>Date: To</mat-label>
-            <input matInput [(ngModel)]="endDate" [matDatepicker]="endDatepicker">
+            <input matInput [(ngModel)]="endDate" [matDatepicker]="endDatepicker" [max]="maxDate">
             <mat-hint style="font-size: 10px; color: #505050;">DD/MM/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="endDatepicker"></mat-datepicker-toggle>
             <mat-datepicker #endDatepicker></mat-datepicker>
         </mat-form-field>
 
         <div style="padding-top: 2.5%;">
-            <button mat-raised-button color="accent" style="width: 50%;" (click)="sidenav.toggle()" (click)="ngOnInit()">
+            <button mat-raised-button color="accent" style="width: 50%;" (click)="sidenav.toggle()" (click)="filterMetrics()">
                 Filter
             </button>
         </div>
@@ -55,17 +55,34 @@
 
     </mat-sidenav>
 
-    <ng-container *ngFor="let metric of displayableMetrics">
-        <div *ngIf="!metric.controller; else chart"> 
-            <p id="value-{{metric.name}}"></p>
-            <p>{{metric.name}} </p>
-        </div>
-        <div>
-            <ng-template #chart>
-                <canvas id="chart-{{metric.controller}}"></canvas>
-                <p>{{metric.controller}}</p>
+    <div style="text-align: center; margin: 2em;">
+
+        <ng-container *ngFor="let evaluation of evaluations">
+
+            <div *ngIf="!evaluation.groupable; else barChart" class="valueContainer"> 
+
+                <div *ngIf="!historical; else lineChart" 
+                    id="value-{{evaluation.name}}" class="valueNumber"></div>
+
+                <ng-template #lineChart>
+                    <div>
+                        <canvas id="chart-{{evaluation.name}}"></canvas>
+                    </div>
+                </ng-template>
+
+                <p>{{evaluation.name}}</p>
+
+            </div>
+
+            <ng-template #barChart>
+                <div class="barchartContainer">
+                    <canvas id="chart-{{evaluation.name}}"></canvas>
+                    <p>{{evaluation.name}}</p>
+                </div>
             </ng-template> 
-        </div>
-    </ng-container>
+
+        </ng-container>
+
+    </div>
 
 </mat-sidenav-container>

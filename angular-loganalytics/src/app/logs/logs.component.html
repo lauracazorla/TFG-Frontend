@@ -28,7 +28,7 @@
 
         <mat-form-field class="formField">
             <mat-label>Date: From</mat-label>
-            <input matInput [(ngModel)]="startDate" [matDatepicker]="startDatepicker">
+            <input matInput [(ngModel)]="startDate" [matDatepicker]="startDatepicker" [max]="maxDate">
             <mat-hint style="font-size: 10px; color: #505050;">DD/MM/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="startDatepicker"></mat-datepicker-toggle>
             <mat-datepicker #startDatepicker></mat-datepicker>
@@ -36,7 +36,7 @@
 
         <mat-form-field class="formField">
             <mat-label>Date: To</mat-label>
-            <input matInput [(ngModel)]="endDate" [matDatepicker]="endDatepicker">
+            <input matInput [(ngModel)]="endDate" [matDatepicker]="endDatepicker" [max]="maxDate">
             <mat-hint style="font-size: 10px; color: #505050;">DD/MM/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="endDatepicker"></mat-datepicker-toggle>
             <mat-datepicker #endDatepicker></mat-datepicker>

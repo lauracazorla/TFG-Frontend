@@ -36,6 +36,7 @@ export class LogsComponent implements OnInit {
   startDate: string;
   endDate: string;
   keyword: string;
+  maxDate: Date;
 
   displayColumns: string[] = ['message'];
   dataSource = new MatTableDataSource<Log>(this.logs);
@@ -44,6 +45,16 @@ export class LogsComponent implements OnInit {
   @ViewChild(MatSidenav) sidenav: MatSidenav;
 
   ngOnInit(): void {
+    
+    this.maxDate = new Date();
+    //this.maxDate.setDate(this.maxDate.getDate() - 1);
+
+    this.startDate = undefined!;
+    this.endDate = undefined!;
+    this.selectedSubject = undefined!;
+    this.selectedTeam = undefined!;
+    this.keyword = undefined!;
+    
     this.logService.getLogs(1, 100, undefined!, 
     undefined!, undefined!, undefined!, undefined!).subscribe((data: Log[]) => {
       this.logs = data.sort((a, b) => b.time - a.time);
@@ -75,13 +86,8 @@ export class LogsComponent implements OnInit {
       this.dataSource.paginator = this.paginator; 
       }, (error: any) => {
       this.showErrorMessage(`Error ${error.status}: ${error.error.message}`);
+      this.ngOnInit();
     });
-
-    this.startDate = undefined!;
-    this.endDate = undefined!;
-    this.selectedSubject = undefined!;
-    this.selectedTeam = undefined!;
-    this.keyword = undefined!;
   }
 
   showErrorMessage(message: string): void {
