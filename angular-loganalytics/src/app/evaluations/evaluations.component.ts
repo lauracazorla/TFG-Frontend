@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SubjectService } from '../subjects/subject.service';
 import { TeamService } from '../teams/team.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -97,7 +97,7 @@ export class EvaluationsComponent implements OnInit {
               chartStatus.destroy();
             }
 
-            new Chart(canvas, {
+            const chart = new Chart(canvas, {
               type: 'line',
               data: {
                 labels: chartLabels,
@@ -115,10 +115,17 @@ export class EvaluationsComponent implements OnInit {
                   x: {
                     type: "time",
                     time: {
-                      unit: 'day'
+                      unit: 'day',
+                      tooltipFormat: 'll'
                     },
                     ticks: {
                       display: true
+                    }
+                  },
+                  y: {
+                    min: 0,
+                    ticks: {
+                      precision: 0
                     }
                   }
                 }
@@ -143,7 +150,7 @@ export class EvaluationsComponent implements OnInit {
             chartStatus.destroy();
           }
           
-          new Chart(canvas, {
+          const chart : Chart = new Chart(canvas, {
             type: 'bar',
             data: {
               labels: chartLabels,
@@ -157,6 +164,7 @@ export class EvaluationsComponent implements OnInit {
             },
             options: {
               responsive: false,
+              onClick: (event: any) => this.barClick(event, chart, evaluation.name),
               scales: {
                 x: {
                   ticks: {
@@ -164,7 +172,10 @@ export class EvaluationsComponent implements OnInit {
                   }
                 },
                 y: {
-                  min: 0
+                  min: 0,
+                  ticks: {
+                    precision: 0
+                  }
                 }
               }
             }
@@ -173,6 +184,17 @@ export class EvaluationsComponent implements OnInit {
         }
 
       });
+    }
+  }
+
+  barClick(event: any, chart: Chart, metric: string) {
+    const activeBars = chart.getElementsAtEventForMode(event, 'nearest', { intersect: true }, true);
+    if (activeBars.length > 0) {
+      const index = activeBars[0].index; 
+      const label = chart.data.labels![index];
+      console.log(metric);
+      console.log(label);
+      this.router.navigate(['/metrics', metric, label]);
     }
   }
 
@@ -209,6 +231,56 @@ export class EvaluationsComponent implements OnInit {
           this.showErrorMessage(`Error ${error.status}: ${error.error.message}`);
           this.ngOnInit();
         });
+      }
+    }
+    else {
+      if (this.selectedSubject != undefined && this.selectedTeam != undefined) {
+        this.showErrorMessage(`Error 400: Cannot filter by team and subject simultaneously`);
+        this.ngOnInit();
+      }
+      else if (this.selectedSubject != undefined) {
+        if (this.startDate == undefined && this.endDate == undefined) {
+          this.evaluationService.getCurrentBySubject(this.selectedSubject).subscribe((data: Evaluation[]) => {
+            this.evaluations = data.sort((a, b) => a.name.localeCompare(b.name));
+            this.rendered = false;
+            this.historical = false;
+            }, (error: any) => {
+            this.showErrorMessage(`Error ${error.status}: ${error.error.message}`);
+            this.ngOnInit();
+          });
+        }
+        else {
+          this.evaluationService.getHistoricalBySubject(this.selectedSubject, this.startDate, this.endDate).subscribe((data: Evaluation[]) => {
+            this.evaluations = data.sort((a, b) => a.name.localeCompare(b.name));
+            this.rendered = false;
+            this.historical = true;
+            }, (error: any) => {
+            this.showErrorMessage(`Error ${error.status}: ${error.error.message}`);
+            this.ngOnInit();
+          });
+        }
+      }
+      else if (this.selectedTeam != undefined) {
+        if (this.startDate == undefined && this.endDate == undefined) {
+          this.evaluationService.getCurrentByTeam(this.selectedTeam).subscribe((data: Evaluation[]) => {
+            this.evaluations = data.sort((a, b) => a.name.localeCompare(b.name));
+            this.rendered = false;
+            this.historical = false;
+            }, (error: any) => {
+            this.showErrorMessage(`Error ${error.status}: ${error.error.message}`);
+            this.ngOnInit();
+          });
+        }
+        else {
+          this.evaluationService.getHistoricalByTeam(this.selectedTeam, this.startDate, this.endDate).subscribe((data: Evaluation[]) => {
+            this.evaluations = data.sort((a, b) => a.name.localeCompare(b.name));
+            this.rendered = false;
+            this.historical = true;
+            }, (error: any) => {
+            this.showErrorMessage(`Error ${error.status}: ${error.error.message}`);
+            this.ngOnInit();
+          });
+        }
       }
     }
   }
