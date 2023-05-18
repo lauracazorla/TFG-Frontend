@@ -74,6 +74,12 @@ export class EvaluationsComponent implements OnInit {
     });
   }
 
+  formatNumber(n : number) : string {
+    const decimalPlaces = (n.toString().split('.')[1] || '').length;
+    const formattedNum = decimalPlaces > 2 ? n.toFixed(2) : n.toFixed(decimalPlaces)
+    return formattedNum;
+  }
+
   ngAfterViewChecked() : void {
     if (this.evaluations && !this.rendered) {
       this.rendered = true;
@@ -82,7 +88,7 @@ export class EvaluationsComponent implements OnInit {
         if (!evaluation.groupable) {
           if (!this.startDate && !this.endDate) {
             const valueElement = document.getElementById(`value-${evaluation.name}`) as HTMLElement;
-            valueElement.innerText = evaluation.value.toString();
+            valueElement.innerText = this.formatNumber(evaluation.value);
           }
           else {
             const canvas = document.getElementById(`chart-${evaluation.name}`) as HTMLCanvasElement;
