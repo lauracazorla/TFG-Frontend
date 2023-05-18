@@ -34,6 +34,7 @@ export class EvaluationsComponent implements OnInit {
   selectedTeam: string;
   startDate: string;
   endDate: string;
+  
   private rendered: boolean;
   historical: boolean;
   maxDate: Date;
@@ -43,7 +44,7 @@ export class EvaluationsComponent implements OnInit {
     this.rendered = false;
     this.historical = false;
     this.maxDate = new Date();
-    //this.maxDate.setDate(this.maxDate.getDate() - 1);
+    this.maxDate.setDate(this.maxDate.getDate() - 1);
 
     this.evaluations = undefined!;
     this.selectedSubject = undefined!;
@@ -139,48 +140,54 @@ export class EvaluationsComponent implements OnInit {
           const canvas = document.getElementById(`chart-${evaluation.name}`) as HTMLCanvasElement;
           var evalMap = new Map<string,number>(Object.entries(evaluation.entities));
           evalMap = this.filterEntities(evalMap);
-          const chartLabels: string[] = Array.from( evalMap.keys() );
-          const chartData: number[] = Array.from( evalMap.values() );
-          
           canvas.width = 350;
           canvas.height = 350;
+          if (evalMap.size != 0) {
+            const chartLabels: string[] = Array.from( evalMap.keys() );
+            const chartData: number[] = Array.from( evalMap.values() );
 
-          let chartStatus = Chart.getChart(`chart-${evaluation.name}`);
-          if (chartStatus != undefined) {
-            chartStatus.destroy();
-          }
-          
-          const chart : Chart = new Chart(canvas, {
-            type: 'bar',
-            data: {
-              labels: chartLabels,
-              datasets: [
-                {
-                  label: evaluation.name,
-                  data: chartData,
-                  backgroundColor: ["#FFB3C6", "#FF8FAB", "#FB6F92", "#FF9EBB", "#FF7AA2"]
-                }
-              ]
-            },
-            options: {
-              responsive: false,
-              onClick: (event: any) => this.barClick(event, chart, evaluation.name),
-              scales: {
-                x: {
-                  ticks: {
-                    display: false
+            let chartStatus = Chart.getChart(`chart-${evaluation.name}`);
+            if (chartStatus != undefined) {
+              chartStatus.destroy();
+            }
+            
+            const chart : Chart = new Chart(canvas, {
+              type: 'bar',
+              data: {
+                labels: chartLabels,
+                datasets: [
+                  {
+                    label: evaluation.name,
+                    data: chartData,
+                    backgroundColor: ["#FFB3C6", "#FF8FAB", "#FB6F92", "#FF9EBB", "#FF7AA2"]
                   }
-                },
-                y: {
-                  min: 0,
-                  ticks: {
-                    precision: 0
+                ]
+              },
+              options: {
+                responsive: false,
+                onClick: (event: any) => this.barClick(event, chart, evaluation.name),
+                scales: {
+                  x: {
+                    ticks: {
+                      display: false
+                    }
+                  },
+                  y: {
+                    min: 0,
+                    ticks: {
+                      precision: 0
+                    }
                   }
                 }
               }
-            }
-          });
-
+            });
+          }
+          else {
+            const ctx = canvas.getContext('2d')!;
+            ctx.font = "20px Roboto";
+            ctx.textAlign = "center";
+            ctx.fillText("No data available", 175, 175);
+          }
         }
 
       });
@@ -192,13 +199,21 @@ export class EvaluationsComponent implements OnInit {
     if (activeBars.length > 0) {
       const index = activeBars[0].index; 
       const label = chart.data.labels![index];
-      console.log(metric);
-      console.log(label);
-      this.router.navigate(['/metrics', metric, label]);
+      const additionalParams = {
+        selectedSubject: this.selectedSubject,
+        selectedTeam: this.selectedTeam,
+        startDate: this.startDate,
+        endDate: this.endDate
+      }
+      this.router.navigate(['/metrics', metric, label], { state: additionalParams });
     }
   }
 
   filterEntities(map : Map<string,number>): Map<string,number> {
+    map.forEach((value, key)=> {
+      if (value === 0) 
+        map.delete(key);
+    });
     const entries = Array.from(map);
     entries.sort((a, b) => b[1] - a[1]);
     entries.splice(10);

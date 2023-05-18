@@ -47,7 +47,7 @@ export class LogsComponent implements OnInit {
   ngOnInit(): void {
     
     this.maxDate = new Date();
-    //this.maxDate.setDate(this.maxDate.getDate() - 1);
+    this.maxDate.setDate(this.maxDate.getDate() - 1);
 
     this.startDate = undefined!;
     this.endDate = undefined!;

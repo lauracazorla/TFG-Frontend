@@ -1,5 +1,4 @@
 <app-toolbar></app-toolbar>
-<p>detailed-evaluations works!</p>
 
 <mat-sidenav-container class="sideNavContainer">
 
@@ -14,7 +13,7 @@
         <mat-form-field class="formField" style="padding-top: 0%;">
             <mat-label>Subject</mat-label>
             <mat-select [(ngModel)]="selectedSubject">
-                <mat-option value="undefined">-</mat-option>
+                <mat-option>-</mat-option>
                 <mat-option *ngFor="let subject of subjects" [value]="subject.acronym">{{ subject.acronym }}</mat-option>
             </mat-select>
         </mat-form-field>
@@ -22,7 +21,7 @@
         <mat-form-field class="formField">
             <mat-label>Team</mat-label>
             <mat-select [(ngModel)]="selectedTeam">
-                <mat-option value="undefined">-</mat-option>
+                <mat-option>-</mat-option>
                 <mat-option *ngFor="let team of teams" [value]="team.id">{{ team.id }}</mat-option>
             </mat-select>
         </mat-form-field>
@@ -49,7 +48,7 @@
             </button>
         </div>
         <div style="padding-top: 2.5%;">
-            <button mat-raised-button color="accent" style="width: 50%;" (click)="sidenav.toggle()" (click)="ngOnInit()">
+            <button mat-raised-button color="accent" style="width: 50%;" (click)="sidenav.toggle()" (click)="removeFilters()">
                 Remove filters
             </button>
         </div>
@@ -58,33 +57,14 @@
 
     <div style="text-align: center; margin: 2em;">
 
-        <!--
-        <ng-container *ngFor="let evaluation of evaluations">
+        <div *ngIf="!evaluation && finished" class="valueContainer" style="text-align: center; margin: 2em;"> 
+            <p style="font-size: 20px;">No data available for filtered time range</p>
+        </div>
 
-            <div *ngIf="!evaluation.groupable; else barChart" class="valueContainer"> 
-
-                <div *ngIf="!historical; else lineChart" 
-                    id="value-{{evaluation.name}}" class="valueNumber"></div>
-
-                <ng-template #lineChart>
-                    <div>
-                        <canvas id="chart-{{evaluation.name}}"></canvas>
-                    </div>
-                </ng-template>
-
-                <p>{{evaluation.name}}</p>
-
-            </div>
-
-            <ng-template #barChart>
-                <div class="barchartContainer">
-                    <canvas id="chart-{{evaluation.name}}"></canvas>
-                    <p>{{evaluation.name}}</p>
-                </div>
-            </ng-template> 
-
-        </ng-container>
-        -->
+        <div *ngIf="evaluation" class="valueContainer"> 
+            <canvas id="chart"></canvas> 
+        </div>
+        <p *ngIf="evaluation">{{evaluation.name}}</p>
 
     </div>
 

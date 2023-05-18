@@ -13,7 +13,7 @@
         <mat-form-field class="formField" style="padding-top: 0%;">
             <mat-label>Subject</mat-label>
             <mat-select [(ngModel)]="selectedSubject">
-                <mat-option value="undefined">-</mat-option>
+                <mat-option>-</mat-option>
                 <mat-option *ngFor="let subject of subjects" [value]="subject.acronym">{{ subject.acronym }}</mat-option>
             </mat-select>
         </mat-form-field>
@@ -21,7 +21,7 @@
         <mat-form-field class="formField">
             <mat-label>Team</mat-label>
             <mat-select [(ngModel)]="selectedTeam">
-                <mat-option value="undefined">-</mat-option>
+                <mat-option>-</mat-option>
                 <mat-option *ngFor="let team of teams" [value]="team.id">{{ team.id }}</mat-option>
             </mat-select>
         </mat-form-field>
@@ -56,6 +56,10 @@
     </mat-sidenav>
 
     <div style="text-align: center; margin: 2em;">
+
+        <div *ngIf="evaluations && evaluations.length == 0" class="valueContainer"> 
+            <p style="font-size: 20px;">No data available for filtered time range</p>
+        </div>
 
         <ng-container *ngFor="let evaluation of evaluations">
 
