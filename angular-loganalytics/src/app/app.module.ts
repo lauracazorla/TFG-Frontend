@@ -26,7 +26,7 @@ import { LogsComponent } from './logs/logs.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ErrorPopupComponent } from './error-popup/error-popup.component';
 import { EvaluationsComponent } from './evaluations/evaluations.component';
-import { DetailedEvaluationsComponent } from './detailed-evaluations/detailed-evaluations.component'
+import { DetailedEvaluationsComponent } from './detailed-evaluations/detailed-evaluations.component';
 
 @NgModule({
   declarations: [

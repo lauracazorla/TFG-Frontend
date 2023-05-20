@@ -2,12 +2,6 @@
 
 <mat-sidenav-container class="sideNavContainer">
 
-    <div class="filterButton" >
-        <button mat-mini-fab color="primary" (click)="sidenav.toggle()">
-            <mat-icon>filter_list</mat-icon>
-        </button>
-    </div>
-
     <mat-sidenav #sidenav mode="over" position="end" class="sideNavContent">
 
         <mat-form-field class="formField" style="padding-top: 0%;">
@@ -55,38 +49,64 @@
 
     </mat-sidenav>
 
-    <div style="text-align: center; margin: 2em;">
+    <mat-sidenav-content>
 
-        <div *ngIf="evaluations && evaluations.length == 0" class="valueContainer"> 
-            <p style="font-size: 20px;">No data available for filtered time range</p>
+        <div class="filterButton" >
+            <button mat-mini-fab color="primary" (click)="sidenav.toggle()">
+                <mat-icon>filter_list</mat-icon>
+            </button>
         </div>
 
-        <ng-container *ngFor="let evaluation of evaluations">
+        <div style="text-align: center; margin: 2em;">
 
-            <div *ngIf="!evaluation.groupable; else barChart" class="valueContainer"> 
-
-                <div *ngIf="!historical; else lineChart" 
-                    id="value-{{evaluation.name}}" class="valueNumber"></div>
-
-                <ng-template #lineChart>
-                    <div>
-                        <canvas id="chart-{{evaluation.name}}"></canvas>
-                    </div>
-                </ng-template>
-
-                <p>{{evaluation.name}}</p>
-
+            <div *ngIf="evaluations && evaluations.length == 0" class="valueContainer"> 
+                <p style="font-size: 20px;">No data available for filtered time range</p>
             </div>
 
-            <ng-template #barChart>
-                <div class="barchartContainer">
-                    <canvas id="chart-{{evaluation.name}}"></canvas>
-                    <p>{{evaluation.name}}</p>
-                </div>
-            </ng-template> 
+            <ng-container *ngFor="let category of categories">
 
-        </ng-container>
+                <h3 *ngIf="evaluations && evaluations.length != 0" style="margin-top: 3em;">{{category.id}}</h3>
 
-    </div>
+                <ng-container *ngFor="let evaluation of evaluations">
+
+                    <ng-container *ngIf="category.id == evaluation.category">
+
+                        <div *ngIf="!evaluation.groupable; else barChart" class="valueContainer"> 
+
+                            <div *ngIf="!historical; else lineChart" 
+                                id="value-{{evaluation.name}}" class="valueNumber"></div>
+
+                            <ng-template #lineChart>
+                                <div>
+                                    <canvas id="chart-{{evaluation.name}}"></canvas>
+                                </div>
+                            </ng-template>
+
+                            <p>{{evaluation.name}}</p>
+
+                        </div>
+
+                        <ng-template #barChart>
+                            <div class="barchartContainer">
+                                <canvas id="chart-{{evaluation.name}}"></canvas>
+                                <p>{{evaluation.name}}</p>
+                            </div>
+                        </ng-template> 
+
+                    </ng-container>
+
+                </ng-container>
+
+            </ng-container>
+
+            <div *ngIf="evaluations && evaluations.length != 0" class="scroll-to-top">
+                <button mat-raised-button color="accent" (click)="scrollToTop()">
+                    Scroll to top
+                </button>
+            </div>
+
+        </div>
+    
+    </mat-sidenav-content>
 
 </mat-sidenav-container>

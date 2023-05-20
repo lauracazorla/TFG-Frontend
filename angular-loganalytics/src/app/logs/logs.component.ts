@@ -3,7 +3,7 @@ import { Log } from './log';
 import { LogService } from './log.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSidenav } from '@angular/material/sidenav';
+import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import * as moment from 'moment';
 import { Subject } from '../subjects/subject';
 import { SubjectService } from '../subjects/subject.service';
@@ -11,7 +11,8 @@ import { Team } from '../teams/team';
 import { TeamService } from '../teams/team.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorPopupComponent } from '../error-popup/error-popup.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { animate } from '@angular/animations';
 
 @Component({
   selector: 'app-logs',
@@ -43,6 +44,7 @@ export class LogsComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSidenav) sidenav: MatSidenav;
+  @ViewChild(MatSidenavContent) sidenavContent: MatSidenavContent;
 
   ngOnInit(): void {
     
@@ -77,7 +79,7 @@ export class LogsComponent implements OnInit {
   filterLogs(): void {
     if (this.startDate != undefined) this.startDate = moment(this.startDate).format("YYYY-MM-DD");
     if (this.endDate != undefined) this.endDate = moment(this.endDate).format("YYYY-MM-DD");
-
+    
     this.logService.getLogs(1, 100, this.startDate, 
     this.endDate, this.selectedSubject, this.selectedTeam, 
     this.keyword).subscribe((data: Log[]) => {
@@ -95,6 +97,10 @@ export class LogsComponent implements OnInit {
       width: '25%',
       data: { errorMessage: message }
     });
+  }
+
+  scrollToTop() {
+    this.sidenavContent.scrollTo({top : 0, behavior: 'smooth'});
   }
 
 }

@@ -5,5 +5,6 @@ export class Evaluation {
     date: string;
     value: number;
     groupable: boolean;
+    category: string;
     entities: Map<string,number>;
 }

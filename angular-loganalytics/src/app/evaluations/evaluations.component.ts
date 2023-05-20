@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SubjectService } from '../subjects/subject.service';
 import { TeamService } from '../teams/team.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,6 +11,9 @@ import { Chart } from 'chart.js/auto';
 import { Evaluation } from './evaluation';
 import * as moment from 'moment';
 import 'chartjs-adapter-moment';
+import { Category } from '../categories/category';
+import { CategoryService } from '../categories/category.service';
+import { MatSidenavContent } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-evaluations',
@@ -21,6 +24,7 @@ export class EvaluationsComponent implements OnInit {
 
   constructor(private subjectService: SubjectService,
     private teamService: TeamService,
+    private categoryService: CategoryService,
     private evaluationService: EvaluationService,
     private dialog: MatDialog,
     private router: Router) { 
@@ -28,12 +32,15 @@ export class EvaluationsComponent implements OnInit {
   }
   teams: Team[];
   subjects: Subject[];
+  categories: Category[];
   evaluations: Evaluation[];
 
   selectedSubject: string;
   selectedTeam: string;
   startDate: string;
   endDate: string;
+  
+  @ViewChild(MatSidenavContent) sidenavContent: MatSidenavContent;
   
   private rendered: boolean;
   historical: boolean;
@@ -58,6 +65,10 @@ export class EvaluationsComponent implements OnInit {
   
     this.teamService.getTeams().subscribe((data: Team[]) => {
       this.teams = data; 
+    });
+    
+    this.categoryService.getCategories().subscribe((data: Category[]) => {
+      this.categories = data;
     });
     
     this.evaluationService.getCurrent().subscribe((data: Evaluation[]) => {
@@ -88,6 +99,7 @@ export class EvaluationsComponent implements OnInit {
         if (!evaluation.groupable) {
           if (!this.startDate && !this.endDate) {
             const valueElement = document.getElementById(`value-${evaluation.name}`) as HTMLElement;
+            this.adjustFontSize(valueElement, this.formatNumber(evaluation.value));
             valueElement.innerText = this.formatNumber(evaluation.value);
           }
           else {
@@ -222,7 +234,7 @@ export class EvaluationsComponent implements OnInit {
     });
     const entries = Array.from(map);
     entries.sort((a, b) => b[1] - a[1]);
-    entries.splice(10);
+    entries.splice(20);
     return new Map(entries);
   }
 
@@ -304,6 +316,20 @@ export class EvaluationsComponent implements OnInit {
         }
       }
     }
+  }
+
+  adjustFontSize(valueElement: HTMLElement, number: string): void {
+    const numberLength = number.toString().length;
+    const maxWidth = 350;
+    const maxHeight = 275;
+    const maxFontSize = 100;
+    valueElement.style.fontSize = '';
+    const fontSize = Math.min(maxFontSize, Math.min(maxWidth / numberLength, maxHeight));
+    valueElement.style.fontSize = `${fontSize}px`;
+  }
+
+  scrollToTop() {
+    this.sidenavContent.scrollTo({top : 0, behavior: 'smooth'});
   }
   
 }

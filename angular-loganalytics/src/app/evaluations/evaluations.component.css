@@ -1,9 +1,9 @@
 .filterButton {
     display: flex;
     justify-content: right;
-    top: 10px;
-    right: 10px;
-    position: absolute;
+    top: 70px;
+    right: 25px;
+    position: fixed;
     z-index: 1;
 }
 
@@ -42,8 +42,16 @@
 
 .valueNumber {
     width: 350px; 
-    height: 350px; 
-    line-height: 350px;
+    height: 275px; 
+    line-height: 275px;
     font-size: 100px;
     font-weight: 100;
+}
+
+.scroll-to-top {
+    display: flex;
+    justify-content: right;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
 }
