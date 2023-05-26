@@ -10,6 +10,7 @@ import { Evaluation } from '../evaluations/evaluation';
 import * as moment from 'moment';
 import { ErrorPopupComponent } from '../error-popup/error-popup.component';
 import Chart from 'chart.js/auto';
+import { Constants } from '../config/constants';
 
 @Component({
   selector: 'app-detailed-evaluations',
@@ -33,6 +34,7 @@ export class DetailedEvaluationsComponent implements OnInit {
   maxDate: Date;
   private rendered: boolean;
   finished: boolean;
+  colors: string[] = Constants.COLORS;
 
   selectedSubject: string;
   selectedTeam: string;
@@ -150,6 +152,27 @@ export class DetailedEvaluationsComponent implements OnInit {
     this.filterMetrics();
   }
 
+  shuffleArray(array: any[]) {
+    const newArray = array.slice();
+    let currentIndex = newArray.length;
+    let temporaryValue;
+    let randomIndex;
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      temporaryValue = newArray[currentIndex];
+      newArray[currentIndex] = newArray[randomIndex];
+      newArray[randomIndex] = temporaryValue;
+      if (currentIndex > 0 && newArray[currentIndex - 1] === newArray[currentIndex]) {
+        const remainingElements = newArray.slice(0, currentIndex - 1).concat(newArray.slice(currentIndex));
+        const randomRemainingIndex = Math.floor(Math.random() * remainingElements.length);
+        newArray[currentIndex] = remainingElements[randomRemainingIndex];
+        newArray[randomRemainingIndex] = temporaryValue;
+      }
+    }
+    return newArray;
+  }
+
   ngAfterViewChecked() : void {
     if (this.evaluation && !this.rendered) {
       this.rendered = true;
@@ -174,12 +197,12 @@ export class DetailedEvaluationsComponent implements OnInit {
             {
               label: this.param,
               data: chartData,
-              backgroundColor: ["#FFB3C6", "#FF8FAB", "#FB6F92", "#FF9EBB", "#FF7AA2"]
+              backgroundColor: this.shuffleArray(this.colors)
             }
           ]
         },
         options: {
-          responsive: false,
+          responsive: true,
           scales: {
             x: {
               type: "time",
@@ -197,6 +220,11 @@ export class DetailedEvaluationsComponent implements OnInit {
                 precision: 0
               }
             }
+          },
+          plugins: {
+            legend: {
+              display: false
+            },
           }
         }
       });

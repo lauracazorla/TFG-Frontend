@@ -6,7 +6,7 @@ import { EvaluationsComponent } from './evaluations/evaluations.component';
 import { DetailedEvaluationsComponent } from './detailed-evaluations/detailed-evaluations.component';
 
 const routes: Routes = [
-  {path: '', component: HomeComponent},
+  {path: '', redirectTo: 'metrics', pathMatch: 'full'},
   {path: 'logs', component: LogsComponent},
   {path: 'metrics', component: EvaluationsComponent},
   {path: 'metrics/:metric/:param', component: DetailedEvaluationsComponent}

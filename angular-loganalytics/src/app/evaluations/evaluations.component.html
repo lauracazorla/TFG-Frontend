@@ -65,7 +65,7 @@
 
             <ng-container *ngFor="let category of categories">
 
-                <h3 *ngIf="evaluations && evaluations.length != 0" style="margin-top: 3em;">{{category.id}}</h3>
+                <h3 *ngIf="evaluations && evaluations.length != 0" style="margin-top: 2em;">{{category.id}}</h3>
 
                 <ng-container *ngFor="let evaluation of evaluations">
 
@@ -74,15 +74,15 @@
                         <div *ngIf="!evaluation.groupable; else barChart" class="valueContainer"> 
 
                             <div *ngIf="!historical; else lineChart" 
-                                id="value-{{evaluation.name}}" class="valueNumber"></div>
+                                id="value-{{evaluation.name}}" class="valueNumber">  
+                            </div>
+                            <p *ngIf="!historical">{{evaluation.name}}</p>
 
                             <ng-template #lineChart>
-                                <div>
-                                    <canvas id="chart-{{evaluation.name}}"></canvas>
-                                </div>
+                                <canvas id="chart-{{evaluation.name}}"></canvas>
+                                <p>{{evaluation.name}}</p>
                             </ng-template>
-
-                            <p>{{evaluation.name}}</p>
+                            
 
                         </div>
 

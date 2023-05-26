@@ -11,14 +11,15 @@
 .mat-cell {
     padding: 14px;
     line-height: 1.5;
+    word-break: break-word;
 }
 
 .filterButton {
     display: flex;
     justify-content: right;
-    top: 70px;
-    right: 25px;
-    position: fixed;
+    top: 10px;
+    right: 10px;
+    position: absolute;
     z-index: 1;
 }
 
@@ -26,6 +27,12 @@
     background-color: white;
     height: calc(100vh - 60px); 
     width: 100%; 
+}
+
+@media(max-width: 366px) {
+    .sideNavContainer {
+        height: calc(100vh - 120px); 
+    }
 }
 
 .sideNavContent {

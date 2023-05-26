@@ -14,6 +14,7 @@ import 'chartjs-adapter-moment';
 import { Category } from '../categories/category';
 import { CategoryService } from '../categories/category.service';
 import { MatSidenavContent } from '@angular/material/sidenav';
+import { Constants } from '../config/constants';
 
 @Component({
   selector: 'app-evaluations',
@@ -45,6 +46,7 @@ export class EvaluationsComponent implements OnInit {
   private rendered: boolean;
   historical: boolean;
   maxDate: Date;
+  colors: string[] = Constants.COLORS;
 
   ngOnInit(): void {
     
@@ -52,6 +54,7 @@ export class EvaluationsComponent implements OnInit {
     this.historical = false;
     this.maxDate = new Date();
     this.maxDate.setDate(this.maxDate.getDate() - 1);
+    this.colors = this.shuffleArray(this.colors);
 
     this.evaluations = undefined!;
     this.selectedSubject = undefined!;
@@ -91,6 +94,27 @@ export class EvaluationsComponent implements OnInit {
     return formattedNum;
   }
 
+  shuffleArray(array: any[]) {
+    const newArray = array.slice();
+    let currentIndex = newArray.length;
+    let temporaryValue;
+    let randomIndex;
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      temporaryValue = newArray[currentIndex];
+      newArray[currentIndex] = newArray[randomIndex];
+      newArray[randomIndex] = temporaryValue;
+      if (currentIndex > 0 && newArray[currentIndex - 1] === newArray[currentIndex]) {
+        const remainingElements = newArray.slice(0, currentIndex - 1).concat(newArray.slice(currentIndex));
+        const randomRemainingIndex = Math.floor(Math.random() * remainingElements.length);
+        newArray[currentIndex] = remainingElements[randomRemainingIndex];
+        newArray[randomRemainingIndex] = temporaryValue;
+      }
+    }
+    return newArray;
+  }
+
   ngAfterViewChecked() : void {
     if (this.evaluations && !this.rendered) {
       this.rendered = true;
@@ -107,10 +131,8 @@ export class EvaluationsComponent implements OnInit {
             var evalMap = new Map<string,number>(Object.entries(evaluation.entities));
             const chartLabels: string[] = Array.from( evalMap.keys() ).reverse();
             const chartData: number[] = Array.from( evalMap.values() ).reverse();
-
             canvas.width = 350;
             canvas.height = 350;
-
             let chartStatus = Chart.getChart(`chart-${evaluation.name}`);
             if (chartStatus != undefined) {
               chartStatus.destroy();
@@ -124,12 +146,12 @@ export class EvaluationsComponent implements OnInit {
                   {
                     label: evaluation.name,
                     data: chartData,
-                    backgroundColor: ["#FFB3C6", "#FF8FAB", "#FB6F92", "#FF9EBB", "#FF7AA2"]
+                    backgroundColor: this.shuffleArray(this.colors)
                   }
                 ]
               },
               options: {
-                responsive: false,
+                responsive: true,
                 scales: {
                   x: {
                     type: "time",
@@ -147,6 +169,11 @@ export class EvaluationsComponent implements OnInit {
                       precision: 0
                     }
                   }
+                },
+                plugins: {
+                  legend: {
+                    display: false
+                  },
                 }
               }
             });
@@ -177,12 +204,12 @@ export class EvaluationsComponent implements OnInit {
                   {
                     label: evaluation.name,
                     data: chartData,
-                    backgroundColor: ["#FFB3C6", "#FF8FAB", "#FB6F92", "#FF9EBB", "#FF7AA2"]
+                    backgroundColor: this.shuffleArray(this.colors)
                   }
                 ]
               },
               options: {
-                responsive: false,
+                responsive: true,
                 onClick: (event: any) => this.barClick(event, chart, evaluation.name),
                 scales: {
                   x: {
@@ -196,6 +223,11 @@ export class EvaluationsComponent implements OnInit {
                       precision: 0
                     }
                   }
+                },
+                plugins: {
+                  legend: {
+                    display: false
+                  },
                 }
               }
             });

@@ -2,7 +2,8 @@
     display: flex;
     flex-wrap: wrap;
     color: white;
-    height: 60px;
+    height: auto;
+    min-height: 60px;
     font-size: 18px;
     padding-left: 0px;
     padding-right: 0px;
@@ -10,6 +11,13 @@
 }
 
 .toolbarLink {
+    @extend .toolbar;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-decoration: none;
+}
+
+.toolbarLinkTitle {
     @extend .toolbar;
     padding-left: 20px;
     padding-right: 20px;
