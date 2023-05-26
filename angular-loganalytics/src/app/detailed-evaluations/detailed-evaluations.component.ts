@@ -215,10 +215,7 @@ export class DetailedEvaluationsComponent implements OnInit {
               }
             },
             y: {
-              min: 0,
-              ticks: {
-                precision: 0
-              }
+              min: 0
             }
           },
           plugins: {

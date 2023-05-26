@@ -21,7 +21,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 
-import { HomeComponent } from './home/home.component';
 import { LogsComponent } from './logs/logs.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ErrorPopupComponent } from './error-popup/error-popup.component';
@@ -31,7 +30,6 @@ import { DetailedEvaluationsComponent } from './detailed-evaluations/detailed-ev
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     LogsComponent,
     ToolbarComponent,
     ErrorPopupComponent,

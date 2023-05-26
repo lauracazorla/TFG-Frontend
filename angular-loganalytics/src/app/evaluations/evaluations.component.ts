@@ -164,10 +164,7 @@ export class EvaluationsComponent implements OnInit {
                     }
                   },
                   y: {
-                    min: 0,
-                    ticks: {
-                      precision: 0
-                    }
+                    min: 0
                   }
                 },
                 plugins: {
@@ -210,6 +207,11 @@ export class EvaluationsComponent implements OnInit {
               },
               options: {
                 responsive: true,
+                datasets: {
+                  bar: {
+                    maxBarThickness: 50
+                  }
+                },
                 onClick: (event: any) => this.barClick(event, chart, evaluation.name),
                 scales: {
                   x: {
@@ -218,10 +220,7 @@ export class EvaluationsComponent implements OnInit {
                     }
                   },
                   y: {
-                    min: 0,
-                    ticks: {
-                      precision: 0
-                    }
+                    min: 0
                   }
                 },
                 plugins: {

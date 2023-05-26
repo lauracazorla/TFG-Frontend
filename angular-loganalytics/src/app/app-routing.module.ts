@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, ExtraOptions } from '@angular/router';
 import { LogsComponent } from './logs/logs.component';
-import { HomeComponent } from './home/home.component';
 import { EvaluationsComponent } from './evaluations/evaluations.component';
 import { DetailedEvaluationsComponent } from './detailed-evaluations/detailed-evaluations.component';
 

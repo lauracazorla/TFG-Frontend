@@ -37,6 +37,7 @@
 
 .sideNavContent {
     width: 25%;
+    min-width: 175px;
     height: 100%;
     display: flex;
     justify-content: center;
