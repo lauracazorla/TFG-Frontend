@@ -180,6 +180,9 @@ export class DetailedEvaluationsComponent implements OnInit {
       var evalMap = new Map<string,number>(Object.entries(this.evaluation.entities));
       const chartLabels: string[] = Array.from( evalMap.keys() ).reverse();
       const chartData: number[] = Array.from( evalMap.values() ).reverse();
+      //let chartLabels: string[] = ["2023-05-18", "2023-05-19", "2023-05-20", "2023-05-21", "2023-05-22", "2023-05-23", "2023-05-24", "2023-05-25", "2023-05-26", "2023-05-27", "2023-05-28", "2023-05-29", "2023-05-30", "2023-05-31", "2023-06-01", "2023-06-02"]
+      //let chartData: number[];
+      //chartData = [4, 12, 1, 8, 5, 5, 5, 4, 5, 6, 11, 3, 5, 2, 7, 2]
 
       canvas.width = 350;
       canvas.height = 350;

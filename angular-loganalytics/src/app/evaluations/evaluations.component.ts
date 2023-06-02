@@ -131,6 +131,11 @@ export class EvaluationsComponent implements OnInit {
             var evalMap = new Map<string,number>(Object.entries(evaluation.entities));
             const chartLabels: string[] = Array.from( evalMap.keys() ).reverse();
             const chartData: number[] = Array.from( evalMap.values() ).reverse();
+            //let chartLabels: string[] = ["2023-05-18", "2023-05-19", "2023-05-20", "2023-05-21", "2023-05-22", "2023-05-23", "2023-05-24", "2023-05-25", "2023-05-26", "2023-05-27", "2023-05-28", "2023-05-29", "2023-05-30", "2023-05-31", "2023-06-01", "2023-06-02"]
+            //let chartData: number[];
+            //if (evaluation.name == "30 days logins") chartData = [9, 3, 2, 2, 2, 6, 11, 0, 7, 4, 12, 6, 1, 9, 7, 1]
+            //else if (evaluation.name == "7 days logins") chartData = [5, 4, 3, 8, 6, 2, 11, 12, 13, 6, 4, 8, 6, 0, 2, 7]
+            //else chartData = [1, 5, 12, 9, 5, 5, 0, 1, 10, 3, 11, 6, 2, 9, 9, 8]
             canvas.width = 350;
             canvas.height = 350;
             let chartStatus = Chart.getChart(`chart-${evaluation.name}`);
